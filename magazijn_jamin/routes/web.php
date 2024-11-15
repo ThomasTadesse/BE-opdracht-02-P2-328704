@@ -1,20 +1,21 @@
 <?php
 
+// use App\Http\Controllers\
+// use App\Models\
+
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+// use Illuminate\Support\Arr;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'welcome'); // view welcome.blade.php
+// Route::view('about', 'about'); // view about.blade.php
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('profile', [ProfileController::class, 'index']);
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-require __DIR__.'/auth.php';
+// CRUD 
+// Route::get('/jobs/create', [JobController::class, 'create']);
+// Route::post('/jobs', [JobController::class, 'store']);
+// Route::get('/jobs/{job}', [JobController::class, 'show']);
+// Route::get('/jobs/{job}/edit', [JobController::class, 'edit']);
+// Route::patch('/jobs/{job}', [JobController::class, 'update']);
+// Route::delete('/jobs/{job}', [JobController::class, 'destroy']);
