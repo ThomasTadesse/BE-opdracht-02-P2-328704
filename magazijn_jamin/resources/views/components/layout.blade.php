@@ -7,10 +7,16 @@
     @vite(['resources/js/app.js'])
 </head>
 <body class="h-full">
-  <main>
-    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-      {{ $slot }}
+    <div class="h-full flex flex-col">
+        <header class="bg-gray-800 text-white p-4">
+            <h1 class="text-2xl"> </h1>
+        </header>
+        <main class="flex-1 p-4">
+            {{ $slot }}
+        </main>
+        <footer class="bg-gray-800 text-white p-4">
+            <p>&copy; {{ date('Y') }}</p>
+        </footer>
     </div>
-  </main>
 </body>
 </html>
