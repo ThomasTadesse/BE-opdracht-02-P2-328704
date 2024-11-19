@@ -256,7 +256,13 @@ CREATE TABLE IF NOT EXISTS `productperallergeen` (
   `Id` int NOT NULL AUTO_INCREMENT,
   `ProductId` int DEFAULT NULL,
   `AllergeenId` int DEFAULT NULL,
+  `IsActief` bit(1) DEFAULT b'1',
+  `Opmerking` varchar(255) DEFAULT NULL,
+  `DatumAangemaakt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `DatumGewijzigd` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`),
+  CONSTRAINT `productperallergeen_ibfk_1` FOREIGN KEY (`ProductId`) REFERENCES `product` (`ProductId`),
+  CONSTRAINT `productperallergeen_ibfk_2` FOREIGN KEY (`AllergeenId`) REFERENCES `allergeen` (`AllergeenId`),
   UNIQUE KEY `ProductId` (`ProductId`,`AllergeenId`),
   KEY `AllergeenId` (`AllergeenId`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -288,7 +294,13 @@ CREATE TABLE IF NOT EXISTS `productperleverancier` (
   `DatumLevering` date DEFAULT NULL,
   `Aantal` int DEFAULT NULL,
   `DatumEerstVolgendeLevering` date DEFAULT NULL,
+  `IsActief` bit(1) DEFAULT b'1',
+  `Opmerking` varchar(255) DEFAULT NULL,
+  `DatumAangemaakt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `DatumGewijzigd` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`),
+  CONSTRAINT `productperleverancier_ibfk_1` FOREIGN KEY (`LeverancierId`) REFERENCES `leverancier` (`LeverancierId`),
+  CONSTRAINT `productperleverancier_ibfk_2` FOREIGN KEY (`ProductId`) REFERENCES `product` (`ProductId`),
   KEY `LeverancierId` (`LeverancierId`),
   KEY `ProductId` (`ProductId`)
 ) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
