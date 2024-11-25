@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 19, 2024 at 12:03 PM
+-- Generation Time: Nov 25, 2024 at 10:46 AM
 -- Server version: 9.0.1
 -- PHP Version: 8.3.11
 
@@ -248,41 +248,6 @@ INSERT INTO `product` (`ProductId`, `ProductNaam`, `Barcode`, `IsActief`, `Opmer
 -- --------------------------------------------------------
 
 --
--- Table structure for table `productperallergeen`
---
-
-DROP TABLE IF EXISTS `productperallergeen`;
-CREATE TABLE IF NOT EXISTS `productperallergeen` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `ProductId` int DEFAULT NULL,
-  `AllergeenId` int DEFAULT NULL,
-  `IsActief` bit(1) DEFAULT b'1',
-  `Opmerking` varchar(255) DEFAULT NULL,
-  `DatumAangemaakt` datetime DEFAULT CURRENT_TIMESTAMP,
-  `DatumGewijzigd` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`Id`),
-  CONSTRAINT `productperallergeen_ibfk_1` FOREIGN KEY (`ProductId`) REFERENCES `product` (`ProductId`),
-  CONSTRAINT `productperallergeen_ibfk_2` FOREIGN KEY (`AllergeenId`) REFERENCES `allergeen` (`AllergeenId`),
-  UNIQUE KEY `ProductId` (`ProductId`,`AllergeenId`),
-  KEY `AllergeenId` (`AllergeenId`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `productperallergeen`
---
-
-INSERT INTO `productperallergeen` (`Id`, `ProductId`, `AllergeenId`) VALUES
-(1, 1, 2),
-(2, 1, 3),
-(3, 2, 1),
-(4, 2, 4),
-(5, 3, 2),
-(6, 4, 1),
-(7, 4, 3);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `productperleverancier`
 --
 
@@ -299,34 +264,32 @@ CREATE TABLE IF NOT EXISTS `productperleverancier` (
   `DatumAangemaakt` datetime DEFAULT CURRENT_TIMESTAMP,
   `DatumGewijzigd` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`),
-  CONSTRAINT `productperleverancier_ibfk_1` FOREIGN KEY (`LeverancierId`) REFERENCES `leverancier` (`LeverancierId`),
-  CONSTRAINT `productperleverancier_ibfk_2` FOREIGN KEY (`ProductId`) REFERENCES `product` (`ProductId`),
   KEY `LeverancierId` (`LeverancierId`),
   KEY `ProductId` (`ProductId`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `productperleverancier`
 --
 
-INSERT INTO `productperleverancier` (`Id`, `LeverancierId`, `ProductId`, `DatumLevering`, `Aantal`, `DatumEerstVolgendeLevering`) VALUES
-(1, 1, 1, '2023-04-09', 23, '2023-04-16'),
-(2, 1, 1, '2023-04-18', 21, '2023-04-25'),
-(3, 1, 2, '2023-04-09', 12, '2023-04-16'),
-(4, 1, 3, '2023-04-10', 11, '2023-04-17'),
-(5, 2, 4, '2023-04-14', 16, '2023-04-21'),
-(6, 2, 4, '2023-04-21', 23, '2023-04-28'),
-(7, 2, 5, '2023-04-14', 45, '2023-04-21'),
-(8, 2, 6, '2023-04-14', 30, '2023-04-21'),
-(9, 3, 7, '2023-04-12', 12, '2023-04-19'),
-(10, 3, 7, '2023-04-19', 23, '2023-04-26'),
-(11, 3, 8, '2023-04-10', 12, '2023-04-17'),
-(12, 3, 9, '2023-04-11', 1, '2023-04-18'),
-(13, 4, 10, '2023-04-16', 24, '2023-04-30'),
-(14, 5, 11, '2023-04-10', 47, '2023-04-17'),
-(15, 5, 11, '2023-04-19', 60, '2023-04-26'),
-(16, 5, 12, '2023-04-11', 45, NULL),
-(17, 5, 13, '2023-04-12', 23, NULL);
+INSERT INTO `productperleverancier` (`Id`, `LeverancierId`, `ProductId`, `DatumLevering`, `Aantal`, `DatumEerstVolgendeLevering`, `IsActief`, `Opmerking`, `DatumAangemaakt`, `DatumGewijzigd`) VALUES
+(1, 1, 1, '2023-04-09', 23, '2023-04-16', b'1', NULL, '2024-11-25 11:45:51', '2024-11-25 11:45:51'),
+(2, 1, 1, '2023-04-18', 21, '2023-04-25', b'1', NULL, '2024-11-25 11:45:51', '2024-11-25 11:45:51'),
+(3, 1, 2, '2023-04-09', 12, '2023-04-16', b'1', NULL, '2024-11-25 11:45:51', '2024-11-25 11:45:51'),
+(4, 1, 3, '2023-04-10', 11, '2023-04-17', b'1', NULL, '2024-11-25 11:45:51', '2024-11-25 11:45:51'),
+(5, 2, 4, '2023-04-14', 16, '2023-04-21', b'1', NULL, '2024-11-25 11:45:51', '2024-11-25 11:45:51'),
+(6, 2, 4, '2023-04-21', 23, '2023-04-28', b'1', NULL, '2024-11-25 11:45:51', '2024-11-25 11:45:51'),
+(7, 2, 5, '2023-04-14', 45, '2023-04-21', b'1', NULL, '2024-11-25 11:45:51', '2024-11-25 11:45:51'),
+(8, 2, 6, '2023-04-14', 30, '2023-04-21', b'1', NULL, '2024-11-25 11:45:51', '2024-11-25 11:45:51'),
+(9, 3, 7, '2023-04-12', 12, '2023-04-19', b'1', NULL, '2024-11-25 11:45:51', '2024-11-25 11:45:51'),
+(10, 3, 7, '2023-04-19', 23, '2023-04-26', b'1', NULL, '2024-11-25 11:45:51', '2024-11-25 11:45:51'),
+(11, 3, 8, '2023-04-10', 12, '2023-04-17', b'1', NULL, '2024-11-25 11:45:51', '2024-11-25 11:45:51'),
+(12, 3, 9, '2023-04-11', 1, '2023-04-18', b'1', NULL, '2024-11-25 11:45:51', '2024-11-25 11:45:51'),
+(13, 4, 10, '2023-04-16', 24, '2023-04-30', b'1', NULL, '2024-11-25 11:45:51', '2024-11-25 11:45:51'),
+(14, 5, 11, '2023-04-10', 47, '2023-04-17', b'1', NULL, '2024-11-25 11:45:51', '2024-11-25 11:45:51'),
+(15, 5, 11, '2023-04-19', 60, '2023-04-26', b'1', NULL, '2024-11-25 11:45:51', '2024-11-25 11:45:51'),
+(16, 5, 12, '2023-04-11', 45, NULL, b'1', NULL, '2024-11-25 11:45:51', '2024-11-25 11:45:51'),
+(17, 5, 13, '2023-04-12', 23, NULL, b'1', NULL, '2024-11-25 11:45:51', '2024-11-25 11:45:51');
 
 -- --------------------------------------------------------
 
@@ -351,7 +314,8 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
 ('J4VEUYmbWTAjVbp8uG3JvWVkRlKbFFrWaAdO4abs', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiWnBYRGdoOTFUWVd6MFJCZnFNUFVwbk5ST2pTdEhsWkE2cGc5SGpIZCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kYXNoYm9hcmQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1731684208),
-('aUgCfXGIlnWDzbj9DDt9ov7Cycg1YNwJCI0njvhI', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiN01CaGVZclNiNjU1UUp5eHhFUUNmSWZwdFY0ZXdOenZQZ0xxSEZyWiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1732013456);
+('aUgCfXGIlnWDzbj9DDt9ov7Cycg1YNwJCI0njvhI', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiN01CaGVZclNiNjU1UUp5eHhFUUNmSWZwdFY0ZXdOenZQZ0xxSEZyWiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1732019859),
+('LVbXdOjbTj6dgXxtHPMYbLxMRXE6ebxRKfQIJyeb', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiellnZDJIOE1ObjBRVHRCWkxadFZyY2VxSkthU2dTa2QwdzRwcDg3aSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1732530812);
 
 -- --------------------------------------------------------
 
