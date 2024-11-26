@@ -4,5 +4,6 @@
             Magazijn Jamin
         </h1>
 
-
+        <a href="{{ route('suppliers.index') }}" class="text-blue-500">Bekijk Leveranciers</a>
+    </div>
 </x-layout>

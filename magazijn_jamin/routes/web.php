@@ -8,3 +8,6 @@ use App\Http\Controllers\ProductController;
 // use Illuminate\Support\Arr;
 
 Route::view('/', 'welcome'); // view welcome.blade.php
+
+Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers.index');
+Route::get('/suppliers/{supplier}', [SupplierController::class, 'show'])->name('suppliers.show');
