@@ -21,15 +21,27 @@ class SupplierController extends Controller
         return view('suppliers.index', compact('suppliers'));
     }
 
-    public function show(Supplier $supplier)
+    public function show(Supplier $leverancier)
     {
         $products = DB::table('productperleverancier')
             ->join('product', 'productperleverancier.ProductId', '=', 'product.ProductId')
-            ->where('productperleverancier.LeverancierId', $supplier->id)
+            ->where('productperleverancier.LeverancierId', $leverancier->LeverancierId)
             ->select('product.*', 'productperleverancier.DatumLevering', 'productperleverancier.Aantal')
             ->orderBy('Aantal', 'desc')
             ->get();
 
-        return view('suppliers.show', compact('supplier', 'products'));
+        return view('suppliers.show', compact('leverancier', 'products'));
+    }
+
+    public function store(Request $request)
+    {
+        $supplier = Supplier::create($request->all());
+        return response()->json($supplier, 201);
+    }
+
+    public function update(Request $request, Supplier $supplier)
+    {
+        $supplier->update($request->all());
+        return response()->json($supplier, 200);
     }
 }

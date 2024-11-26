@@ -104,26 +104,26 @@ DELIMITER ;
 
 DROP TABLE IF EXISTS `allergeen`;
 CREATE TABLE IF NOT EXISTS `allergeen` (
-  `Id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `AllergeenId` int NOT NULL AUTO_INCREMENT,
   `AllergeenNaam` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `Omschrijving` varchar(255) NOT NULL,
   `IsActief` bit(1) DEFAULT b'1',
   `Opmerking` varchar(255) DEFAULT NULL,
   `DatumAangemaakt` datetime DEFAULT CURRENT_TIMESTAMP,
   `DatumGewijzigd` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  CONSTRAINT PK_Allergeen_Id PRIMARY KEY CLUSTERED (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`AllergeenId`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `allergeen`
 --
 
-INSERT INTO `allergeen` (`AllergeenNaam`, `Omschrijving`, `IsActief`, `Opmerking`, `DatumAangemaakt`, `DatumGewijzigd`) VALUES
-('Gluten', 'Dit product bevat gluten', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-('Gelatine', 'Dit product bevat gelatine', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-('AZO-Kleurstof', 'Dit product bevat AZO-kleurstoffen', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-('Lactose', 'Dit product bevat lactose', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-('Soja', 'Dit product bevat soja', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25');
+INSERT INTO `allergeen` (`AllergeenId`, `AllergeenNaam`, `Omschrijving`, `IsActief`, `Opmerking`, `DatumAangemaakt`, `DatumGewijzigd`) VALUES
+(1, 'Gluten', 'Dit product bevat gluten', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
+(2, 'Gelatine', 'Dit product bevat gelatine', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
+(3, 'AZO-Kleurstof', 'Dit product bevat AZO-kleurstoffen', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
+(4, 'Lactose', 'Dit product bevat lactose', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
+(5, 'Soja', 'Dit product bevat soja', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25');
 
 -- --------------------------------------------------------
 
