@@ -11,5 +11,6 @@
             <p class="mb-2 text-sm font-medium text-gray-900"><strong>DatumGewijzigd:</strong> {{ $magazijn->DatumGewijzigd }}</p>
         </div>
         <a href="{{ route('magazijn.index') }}" class="mt-4 inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Back to List</a>
+        <a href="{{ route('welcome') }}" class="mt-4 inline-block px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Home</a>
     </div>
 </x-layout>

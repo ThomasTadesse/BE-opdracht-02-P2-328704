@@ -21,13 +21,11 @@ class MagazijnController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'ProductId' => 'required',
-            'VerpakkingsEenheid' => 'required',
-            'AantalAanwezig' => 'required',
-            'IsActief' => 'required',
-            'Opmerkingen' => ' ',
-            'DatumAangemaakt' => ' ',
-            'DatumGewijzigd' => ' '
+            'ProductId' => 'required|string|max:255',
+            'VerpakkingsEenheid' => 'required|string|max:255',
+            'AantalAanwezig' => 'required|string|max:255',
+            'IsActief' => 'required|boolean',
+            'Opmerkingen' => 'nullable|string',
         ]);
 
         Magazijn::create($request->all());
@@ -55,9 +53,9 @@ class MagazijnController extends Controller
             'VerpakkingsEenheid' => 'required',
             'AantalAanwezig' => 'required',
             'IsActief' => 'required',
-            'Opmerkingen' => ' ',
-            'DatumAangemaakt' => ' ',
-            'DatumGewijzigd' => ' '
+            'Opmerkingen' => 'nullable',
+            'DatumAangemaakt' => 'required|date',
+            'DatumGewijzigd' => 'required|date'
         ]);
 
         $magazijn = Magazijn::find($id);

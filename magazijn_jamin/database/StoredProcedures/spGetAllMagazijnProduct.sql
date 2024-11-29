@@ -25,6 +25,8 @@ BEGIN
             ,MAGA.ProductId             AS MagazijnProductId 
             ,MAGA.VerpakkingsEenheid
             ,MAGA.AantalAanwezig
+            ,MAGA.DatumAangemaakt
+            ,MAGA.DatumGewijzigd
 
     FROM    Product AS PROD
 

@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('Barcode', 13);
             $table->boolean('IsActief')->default(true);
             $table->string('Opmerkingen')->nullable()->default(null);
-            $table->dateTime('DatumAangemaakt', 6);
-            $table->dateTime('DatumGewijzigd', 6);
+            $table->dateTime('DatumAangemaakt', 6)->default(DB::raw('CURRENT_TIMESTAMP(6)'));
+            $table->dateTime('DatumGewijzigd', 6)->default(DB::raw('CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)'));
             $table->timestamps();
         });
 
@@ -33,8 +33,8 @@ return new class extends Migration
             $table->string('Mobiel', 11);
             $table->boolean('IsActief')->default(true);
             $table->string('Opmerkingen')->nullable()->default(null);
-            $table->dateTime('DatumAangemaakt', 6);
-            $table->dateTime('DatumGewijzigd', 6);
+            $table->dateTime('DatumAangemaakt', 6)->default(DB::raw('CURRENT_TIMESTAMP(6)'));
+            $table->dateTime('DatumGewijzigd', 6)->default(DB::raw('CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)'));
             $table->timestamps();
         });
 
@@ -48,8 +48,8 @@ return new class extends Migration
             $table->date('DatumEerstVolgendeLevering')->nullable();
             $table->boolean('IsActief')->default(true);
             $table->string('Opmerkingen')->nullable()->default(null);
-            $table->dateTime('DatumAangemaakt', 6);
-            $table->dateTime('DatumGewijzigd', 6);
+            $table->dateTime('DatumAangemaakt', 6)->default(DB::raw('CURRENT_TIMESTAMP(6)'));
+            $table->dateTime('DatumGewijzigd', 6)->default(DB::raw('CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)'));
             $table->timestamps();
 
             $table->foreign('LeverancierId')->references('id')->on('leveranciers');
@@ -63,8 +63,8 @@ return new class extends Migration
             $table->string('Omschrijving', 60);
             $table->boolean('IsActief')->default(true);
             $table->string('Opmerkingen')->nullable()->default(null);
-            $table->dateTime('DatumAangemaakt', 6);
-            $table->dateTime('DatumGewijzigd', 6);
+            $table->dateTime('DatumAangemaakt', 6)->default(DB::raw('CURRENT_TIMESTAMP(6)'));
+            $table->dateTime('DatumGewijzigd', 6)->default(DB::raw('CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)'));
             $table->timestamps();
         });
 
@@ -75,8 +75,8 @@ return new class extends Migration
             $table->unsignedBigInteger('AllergeenId');
             $table->boolean('IsActief')->default(true);
             $table->string('Opmerkingen')->nullable()->default(null);
-            $table->dateTime('DatumAangemaakt', 6);
-            $table->dateTime('DatumGewijzigd', 6);
+            $table->dateTime('DatumAangemaakt', 6)->default(DB::raw('CURRENT_TIMESTAMP(6)'));
+            $table->dateTime('DatumGewijzigd', 6)->default(DB::raw('CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)'));
             $table->timestamps();
 
             $table->foreign('ProductId')->references('id')->on('product');
@@ -91,8 +91,8 @@ return new class extends Migration
             $table->unsignedSmallInteger('AantalAanwezig');
             $table->boolean('IsActief')->default(true);
             $table->string('Opmerkingen')->nullable()->default(null);
-            $table->dateTime('DatumAangemaakt', 6);
-            $table->dateTime('DatumGewijzigd', 6);
+            $table->dateTime('DatumAangemaakt', 6)->default(DB::raw('CURRENT_TIMESTAMP(6)'));
+            $table->dateTime('DatumGewijzigd', 6)->default(DB::raw('CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)'));
             $table->timestamps();
 
             $table->foreign('ProductId')->references('id')->on('product');
