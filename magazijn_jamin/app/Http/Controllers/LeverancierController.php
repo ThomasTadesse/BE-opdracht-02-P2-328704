@@ -10,6 +10,7 @@ class LeverancierController extends Controller
     public function index()
     {
         $leveranciers = Leverancier::all();
+
         return view('leverancier.index', compact('leveranciers'));
     }
 
