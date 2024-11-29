@@ -12,6 +12,10 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+Route::get('/home', function () {
+    return view('home');
+})->name('home');
+
 Route::resource('magazijn', MagazijnController::class);
 
 Route::get('/magazijn', [MagazijnController::class, 'index'])->name('magazijn.index'); // view magazijn.blade.php
