@@ -25,13 +25,13 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Magazijn::factory()->create([
-            'ProductId' => '1',
-            'VerpakkingsEenheid' => '1',
-            'AantalAanwezig' => '1',
-            'IsActief' => '1',
-            'Opmerkingen' => ' ',
-            'DatumAangemaakt' => ' ',
-            'DatumGewijzigd' => ' ',
+            'ProductId' => 1,
+            'VerpakkingsEenheid' => 1.5,
+            'AantalAanwezig' => 100,
+            'IsActief' => true,
+            'Opmerkingen' => 'Initial stock',
+            'DatumAangemaakt' => now(),
+            'DatumGewijzigd' => now(),
         ]);
 
         // Other seeders can be called here

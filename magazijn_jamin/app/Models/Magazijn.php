@@ -10,6 +10,8 @@ class Magazijn extends Model
     /** @use HasFactory<\Database\Factories\MagazijnFactory> */
     use HasFactory;
 
+    protected $table = 'magazijn'; // Ensure the table name is correct
+
     protected $fillable = [
         'ProductId',
         'VerpakkingsEenheid',

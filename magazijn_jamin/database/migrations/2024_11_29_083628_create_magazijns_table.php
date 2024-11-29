@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
@@ -13,10 +12,81 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('magazijns', function (Blueprint $table) {
+        Schema::create('product', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->id();
-            $table->unsignedMediumInteger('ProductId');
+            $table->string('Naam', 255);
+            $table->string('Barcode', 13);
+            $table->boolean('IsActief')->default(true);
+            $table->string('Opmerkingen')->nullable()->default(null);
+            $table->dateTime('DatumAangemaakt', 6);
+            $table->dateTime('DatumGewijzigd', 6);
+            $table->timestamps();
+        });
+
+        Schema::create('leveranciers', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            $table->id();
+            $table->string('Naam', 60);
+            $table->string('Contactpersoon', 60);
+            $table->string('Leveranciernummer', 11);
+            $table->string('Mobiel', 11);
+            $table->boolean('IsActief')->default(true);
+            $table->string('Opmerkingen')->nullable()->default(null);
+            $table->dateTime('DatumAangemaakt', 6);
+            $table->dateTime('DatumGewijzigd', 6);
+            $table->timestamps();
+        });
+
+        Schema::create('product_per_leveranciers', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            $table->id();
+            $table->unsignedBigInteger('LeverancierId');
+            $table->unsignedBigInteger('ProductId');
+            $table->date('DatumLevering');
+            $table->unsignedInteger('Aantal');
+            $table->date('DatumEerstVolgendeLevering')->nullable();
+            $table->boolean('IsActief')->default(true);
+            $table->string('Opmerkingen')->nullable()->default(null);
+            $table->dateTime('DatumAangemaakt', 6);
+            $table->dateTime('DatumGewijzigd', 6);
+            $table->timestamps();
+
+            $table->foreign('LeverancierId')->references('id')->on('leveranciers');
+            $table->foreign('ProductId')->references('id')->on('product');
+        });
+
+        Schema::create('allergenen', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            $table->id();
+            $table->string('Naam', 60);
+            $table->string('Omschrijving', 60);
+            $table->boolean('IsActief')->default(true);
+            $table->string('Opmerkingen')->nullable()->default(null);
+            $table->dateTime('DatumAangemaakt', 6);
+            $table->dateTime('DatumGewijzigd', 6);
+            $table->timestamps();
+        });
+
+        Schema::create('product_per_allergenen', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            $table->id();
+            $table->unsignedBigInteger('ProductId');
+            $table->unsignedBigInteger('AllergeenId');
+            $table->boolean('IsActief')->default(true);
+            $table->string('Opmerkingen')->nullable()->default(null);
+            $table->dateTime('DatumAangemaakt', 6);
+            $table->dateTime('DatumGewijzigd', 6);
+            $table->timestamps();
+
+            $table->foreign('ProductId')->references('id')->on('product');
+            $table->foreign('AllergeenId')->references('id')->on('allergenen');
+        });
+
+        Schema::create('magazijn', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            $table->id();
+            $table->unsignedBigInteger('ProductId');
             $table->decimal('VerpakkingsEenheid', 4, 1);
             $table->unsignedSmallInteger('AantalAanwezig');
             $table->boolean('IsActief')->default(true);
@@ -25,9 +95,10 @@ return new class extends Migration
             $table->dateTime('DatumGewijzigd', 6);
             $table->timestamps();
 
-            $table->foreign('ProductId')->references('Id')->on('Product');
+            $table->foreign('ProductId')->references('id')->on('product');
         });
-        DB::statement('ALTER TABLE magazijns ADD CONSTRAINT chk_VerpakkingsEenheid CHECK (VerpakkingsEenheid > 0)');
+
+        DB::statement('ALTER TABLE magazijn ADD CONSTRAINT chk_VerpakkingsEenheid CHECK (VerpakkingsEenheid > 0)');
     }
 
     /**
@@ -35,6 +106,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('magazijns');
+        Schema::dropIfExists('product_per_allergenen');
+        Schema::dropIfExists('allergenen');
+        Schema::dropIfExists('product_per_leveranciers');
+        Schema::dropIfExists('leveranciers');
+        Schema::dropIfExists('magazijn');
+        Schema::dropIfExists('products');
     }
 };

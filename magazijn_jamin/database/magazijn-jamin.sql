@@ -76,7 +76,7 @@ VALUES
 CREATE TABLE IF NOT EXISTS Magazijn
 (
      Id                   MEDIUMINT       UNSIGNED          NOT NULL      AUTO_INCREMENT
-    ,ProductId            MEDIUMINT       UNSIGNED          NOT NULL
+    ,ProductId            BIGINT       UNSIGNED          NOT NULL
     ,VerpakkingsEenheid   DECIMAL(4,1)                      NOT NULL
     ,AantalAanwezig       SMALLINT        UNSIGNED          NOT NULL
     ,IsActief             BIT                               NOT NULL      DEFAULT 1
@@ -154,7 +154,7 @@ CREATE TABLE IF NOT EXISTS Leverancier
 -- 01             22-11-2024  Thomas Tadesse    Insert Records
 -- ***********************************************************
 
-INSERT INTO Leverancier
+INSERT INTO Leveranciers
 (
      Naam
     ,Contactpersoon
@@ -185,8 +185,8 @@ VALUES
 CREATE TABLE IF NOT EXISTS ProductPerLeverancier
 (
      Id                             MEDIUMINT       UNSIGNED          NOT NULL      AUTO_INCREMENT
-    ,LeverancierId                  SMALLINT        UNSIGNED          NOT NULL
-    ,ProductId                      MEDIUMINT       UNSIGNED          NOT NULL
+    ,LeverancierId                  BIGINT        UNSIGNED          NOT NULL
+    ,ProductId                      BIGINT        UNSIGNED          NOT NULL
     ,DatumLevering                  DATE                              NOT NULL
     ,Aantal                         INT             UNSIGNED          NOT NULL
     ,DatumEerstVolgendeLevering     DATE                                  NULL
@@ -196,6 +196,7 @@ CREATE TABLE IF NOT EXISTS ProductPerLeverancier
     ,DatumGewijzigd                 Datetime(6)                       NOT NULL
     ,CONSTRAINT           PK_ProductPerLeverancier_Id  PRIMARY KEY CLUSTERED (Id)
     ,CONSTRAINT           FK_ProductPerLeverancier_LeverancierId_Leverancier_Id  FOREIGN KEY (LeverancierId) REFERENCES Leverancier (Id)
+    ,CONSTRAINT           FK_ProductPerLeverancier_ProductId_Products_Id  FOREIGN KEY (ProductId) REFERENCES Products (Id)
 ) ENGINE=InnoDB   AUTO_INCREMENT=1;
 
 
@@ -300,8 +301,8 @@ VALUES
 CREATE TABLE IF NOT EXISTS ProductPerAllergeen
 (
      Id                             MEDIUMINT       UNSIGNED          NOT NULL      AUTO_INCREMENT
-    ,ProductId                      MEDIUMINT       UNSIGNED          NOT NULL
-    ,AllergeenId                    SMALLINT        UNSIGNED          NOT NULL
+    ,ProductId                      BIGINT       UNSIGNED          NOT NULL
+    ,AllergeenId                    BIGINT       UNSIGNED          NOT NULL
     ,IsActief                       BIT                               NOT NULL      DEFAULT 1
     ,Opmerkingen                    VARCHAR(255)                          NULL      DEFAULT NULL
     ,DatumAangemaakt                Datetime(6)                       NOT NULL
