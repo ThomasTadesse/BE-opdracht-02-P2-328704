@@ -1,366 +1,352 @@
--- phpMyAdmin SQL Dump
--- version 5.2.0
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1:3306
--- Generation Time: Nov 19, 2024 at 12:03 PM
--- Server version: 9.0.1
--- PHP Version: 8.3.11
+-- ********************************************************
+-- Version:       Date:       Author:           
+-- ********       ****        *******         
+-- 01             22-11-2024  Thomas Tadesse
+-- ********************************************************
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `magazijn-jamin`
---
-
-DELIMITER $$
---
--- Procedures
---
-DROP PROCEDURE IF EXISTS `spCreateProduct`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `spCreateProduct` (IN `Naam` VARCHAR(255), IN `Barcode` VARCHAR(13), IN `IsActief` BIT(1), IN `Opmerking` VARCHAR(255), IN `DatumAangemaakt` DATETIME(6), IN `DatumGewijzigd` DATETIME(6))   BEGIN
-
-    INSERT INTO Product (
-        Naam,
-        Barcode,
-        IsActief,
-        Opmerking,
-        DatumAangemaakt,
-        DatumGewijzigd
-    ) VALUES (
-        Naam,
-        Barcode,
-        IsActief,
-        Opmerking,
-        DatumAangemaakt,
-        DatumGewijzigd
-    );
-
-END$$
-
-DROP PROCEDURE IF EXISTS `spDeleteProductById`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `spDeleteProductById` (IN `Id` INT UNSIGNED)   BEGIN
-    DELETE  
-    FROM    Product AS PROD
-    WHERE   PROD.Id = Id;
-END$$
-
-DROP PROCEDURE IF EXISTS `spGetAllProducts`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `spGetAllProducts` ()   BEGIN
-    SELECT  PROD.Id         AS ProductId,
-            PROD.Naam,
-            PROD.Barcode,
-            PROD.IsActief,
-            PROD.Opmerking,
-            PROD.DatumAangemaakt,
-            PROD.DatumGewijzigd
-    FROM    Product AS PROD
-    ORDER BY PROD.Id DESC;
-END$$
-
-DROP PROCEDURE IF EXISTS `spSelectProductById`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `spSelectProductById` (IN `Id` INT UNSIGNED)   BEGIN
-
-    SELECT  PROD.Id,
-            PROD.Naam,
-            PROD.Barcode,
-            PROD.IsActief,
-            PROD.Opmerking,
-            PROD.DatumAangemaakt,
-            PROD.DatumGewijzigd
-    FROM    Product AS PROD
-    WHERE   PROD.Id = Id;
-
-END$$
-
-DROP PROCEDURE IF EXISTS `spUpdateProductById`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `spUpdateProductById` (IN `Id` INT UNSIGNED, IN `Naam` VARCHAR(255), IN `Barcode` VARCHAR(255), IN `IsActief` BIT(1), IN `Opmerking` VARCHAR(255), IN `DatumAangemaakt` DATETIME(6), IN `DatumGewijzigd` DATETIME(6))   BEGIN
-    UPDATE  Product AS  PROD
-    SET     PROD.Naam = Naam,
-            PROD.Barcode = Barcode,
-            PROD.IsActief = IsActief,
-            PROD.Opmerking = Opmerking,
-            PROD.DatumAangemaakt = DatumAangemaakt,
-            PROD.DatumGewijzigd = DatumGewijzigd
-    WHERE   PROD.Id = Id;
-END$$
-
-DELIMITER ;
+DROP DATABASE IF EXISTS magazijn-jamin;
+CREATE DATABASE IF NOT EXISTS magazijn-jamin DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+USE magazijn-jamin;
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `allergeen`
---
+-- Step 01:
+-- Goal: Create a new table Product
+-- ********************************************************
+-- Version:       Date:       Author:           Description
+-- ********       ****        *******           ***********
+-- 01             22-11-2024  Thomas Tadesse    New table
+-- ********************************************************
 
-DROP TABLE IF EXISTS `allergeen`;
-CREATE TABLE IF NOT EXISTS `allergeen` (
-  `AllergeenId` int NOT NULL AUTO_INCREMENT,
-  `AllergeenNaam` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `Omschrijving` varchar(255) NOT NULL,
-  `IsActief` bit(1) DEFAULT b'1',
-  `Opmerking` varchar(255) DEFAULT NULL,
-  `DatumAangemaakt` datetime DEFAULT CURRENT_TIMESTAMP,
-  `DatumGewijzigd` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`AllergeenId`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+DROP TABLE IF EXISTS Product;
 
---
--- Dumping data for table `allergeen`
---
+CREATE TABLE IF NOT EXISTS Product
+(
+     Id              MEDIUMINT             UNSIGNED        NOT NULL      AUTO_INCREMENT
+    ,Naam            VARCHAR(255)                          NOT NULL
+    ,Barcode         VARCHAR(13)                           NOT NULL
+    ,IsActief        BIT                                   NOT NULL      DEFAULT 1
+    ,Opmerkingen     VARCHAR(255)                              NULL      DEFAULT NULL
+    ,DatumAangemaakt Datetime(6)                           NOT NULL
+    ,DatumGewijzigd  Datetime(6)                           NOT NULL
+    ,CONSTRAINT      PK_Product_Id        PRIMARY KEY CLUSTERED (Id)
+) ENGINE=InnoDB   AUTO_INCREMENT=1;
 
-INSERT INTO `allergeen` (`AllergeenId`, `AllergeenNaam`, `Omschrijving`, `IsActief`, `Opmerking`, `DatumAangemaakt`, `DatumGewijzigd`) VALUES
-(1, 'Gluten', 'Dit product bevat gluten', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(2, 'Gelatine', 'Dit product bevat gelatine', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(3, 'AZO-Kleurstof', 'Dit product bevat AZO-kleurstoffen', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(4, 'Lactose', 'Dit product bevat lactose', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(5, 'Soja', 'Dit product bevat soja', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25');
 
--- --------------------------------------------------------
+-- Step: 02
+-- Goal: Fill table Product with data
+-- ***********************************************************
+-- Version:       Date:       Author:           Description
+-- ********       ****        *******           ***********
+-- 01             22-11-2024  Thomas Tadesse    Insert Records
+-- ***********************************************************
 
---
--- Table structure for table `leverancier`
---
+INSERT INTO Product
+(
+     Naam
+    ,Barcode
+    ,IsActief
+    ,Opmerkingen
+    ,DatumAangemaakt
+    ,DatumGewijzigd
+)
+VALUES
+    ('Mintnopjes', '8719587231278', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    ('Schoolkrijt', '8719587326713', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    ('Honingdrop', '8719587327836', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    ('Zure Beren', '8719587321441', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    ('Cola Flesjes', '8719587321237', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    ('Turtles', '8719587322245', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    ('Witte Muizen', '8719587328256', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    ('Reuzen Slangen', '8719587325641', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    ('Zoute Rijen', '8719587322739', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    ('Winegums', '8719587327527', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    ('Drop Munten', '8719587322345', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    ('Kruis Drop', '8719587322265', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    ('Zoute Ruitjes', '8719587323256', 1, NULL, SYSDATE(6), SYSDATE(6));
 
-DROP TABLE IF EXISTS `leverancier`;
-CREATE TABLE IF NOT EXISTS `leverancier` (
-  `LeverancierId` int NOT NULL AUTO_INCREMENT,
-  `LeverancierNaam` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `ContactPersoon` varchar(255) DEFAULT NULL,
-  `LeverancierNummer` varchar(50) DEFAULT NULL,
-  `Mobiel` varchar(12) NOT NULL,
-  `IsActief` bit(1) DEFAULT b'1',
-  `Opmerking` varchar(255) DEFAULT NULL,
-  `DatumAangemaakt` datetime DEFAULT CURRENT_TIMESTAMP,
-  `DatumGewijzigd` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`LeverancierId`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+-- Step 03:
+-- Goal: Create a new table Magazijn
+-- ********************************************************
+-- Version:       Date:       Author:           Description
+-- ********       ****        *******           ***********
+-- 01             22-11-2024  Thomas Tadesse    New table
+-- ********************************************************
 
---
--- Dumping data for table `leverancier`
---
+DROP TABLE IF EXISTS Magazijn;
+CREATE TABLE IF NOT EXISTS Magazijn
+(
+     Id                   MEDIUMINT       UNSIGNED          NOT NULL      AUTO_INCREMENT
+    ,ProductId            MEDIUMINT       UNSIGNED          NOT NULL
+    ,VerpakkingsEenheid   DECIMAL(4,1)                      NOT NULL
+    ,AantalAanwezig       SMALLINT        UNSIGNED          NOT NULL
+    ,IsActief             BIT                               NOT NULL      DEFAULT 1
+    ,Opmerkingen          VARCHAR(255)                          NULL      DEFAULT NULL
+    ,DatumAangemaakt      Datetime(6)                       NOT NULL
+    ,DatumGewijzigd       Datetime(6)                       NOT NULL
+    ,CONSTRAINT           PK_Magazijn_Id  PRIMARY KEY CLUSTERED (Id)
+    ,CONSTRAINT           FK_Magazijn_ProductId_Product_Id  FOREIGN KEY (ProductId) REFERENCES Product(Id)
+) ENGINE=InnoDB   AUTO_INCREMENT=1;
 
-INSERT INTO `leverancier` (`LeverancierId`, `LeverancierNaam`, `ContactPersoon`, `LeverancierNummer`, `Mobiel`, `IsActief`, `Opmerking`, `DatumAangemaakt`, `DatumGewijzigd`) VALUES
-(1, 'Venco', 'Bert van Linge', 'L1029384719', '', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(2, 'Astra Sweets', 'Jasper del Monte', 'L1029284315', '', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(3, 'Haribo', 'Sven Stalman', 'L1029324748', '', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(4, 'Basset', 'Joyce Stelterberg', 'L1023845773', '', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(5, 'De Bron', 'Remco Veenstra', 'L1023857736', '', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25');
+-- Step: 04
+-- Goal: Fill table Magazijn with data
+-- ***********************************************************
+-- Version:       Date:       Author:           Description
+-- ********       ****        *******           ***********
+-- 01             22-11-2024  Thomas Tadesse    Insert Records
+-- ***********************************************************
 
--- --------------------------------------------------------
+INSERT INTO Magazijn
+(
+     ProductId
+    ,VerpakkingsEenheid
+    ,AantalAanwezig
+    ,IsActief
+    ,Opmerkingen
+    ,DatumAangemaakt
+    ,DatumGewijzigd
+)
+VALUES
+    (1, 5, 453, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (2, 2.5, 400, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (3, 5, 1, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (4, 1, 800, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (5, 3, 234, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (6, 2, 345, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (7, 1, 795, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (8, 10, 233, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (9, 2.5, 123, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (10, 3, 0, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (11, 2, 367, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (12, 1, 467, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (13, 5, 20, 1, NULL, SYSDATE(6), SYSDATE(6));
 
---
--- Table structure for table `magazijn`
---
 
-DROP TABLE IF EXISTS `magazijn`;
-CREATE TABLE IF NOT EXISTS `magazijn` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `ProductId` int DEFAULT NULL,
-  `VerpakkingsEenheid` decimal(5,2) DEFAULT NULL,
-  `AantalAanwezig` int DEFAULT NULL,
-  `IsActief` bit(1) DEFAULT b'1',
-  `Opmerking` varchar(255) DEFAULT NULL,
-  `DatumAangemaakt` datetime DEFAULT CURRENT_TIMESTAMP,
-  `DatumGewijzigd` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`Id`),
-  KEY `ProductId` (`ProductId`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+-- Step 05:
+-- Goal: Create a new table Leverancier
+-- ********************************************************
+-- Version:       Date:       Author:           Description
+-- ********       ****        *******           ***********
+-- 01             22-11-2024  Thomas Tadesse    New table
+-- ********************************************************
 
---
--- Dumping data for table `magazijn`
---
+DROP TABLE IF EXISTS Leverancier;
 
-INSERT INTO `magazijn` (`Id`, `ProductId`, `VerpakkingsEenheid`, `AantalAanwezig`, `IsActief`, `Opmerking`, `DatumAangemaakt`, `DatumGewijzigd`) VALUES
-(1, 1, '5.00', 453, b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(2, 2, '2.50', 400, b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(3, 3, '5.00', 1, b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(4, 4, '1.00', 800, b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(5, 5, '3.00', 234, b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(6, 6, '2.00', 345, b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(7, 7, '1.00', 795, b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(8, 8, '10.00', 233, b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(9, 9, '2.50', 123, b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(10, 10, '3.00', NULL, b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(11, 11, '2.00', 367, b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(12, 12, '1.00', 467, b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(13, 13, '5.00', 20, b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25');
+CREATE TABLE IF NOT EXISTS Leverancier
+(
+     Id                 SMALLINT             UNSIGNED        NOT NULL      AUTO_INCREMENT
+    ,Naam               VARCHAR(60)                          NOT NULL
+    ,Contactpersoon     VARCHAR(60)                          NOT NULL
+    ,Leveranciernummer  VARCHAR(11)                          NOT NULL
+    ,Mobiel             VARCHAR(11)                          NOT NULL
+    ,IsActief           BIT                                  NOT NULL      DEFAULT 1
+    ,Opmerkingen        VARCHAR(255)                             NULL      DEFAULT NULL
+    ,DatumAangemaakt Datetime(6)                             NOT NULL
+    ,DatumGewijzigd  Datetime(6)                             NOT NULL
+    ,CONSTRAINT      PK_Levrancier_Id        PRIMARY KEY CLUSTERED (Id)
+) ENGINE=InnoDB   AUTO_INCREMENT=1;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `migrations`
---
+-- Step: 06
+-- Goal: Fill table Levrancier with data
+-- ***********************************************************
+-- Version:       Date:       Author:           Description
+-- ********       ****        *******           ***********
+-- 01             22-11-2024  Thomas Tadesse    Insert Records
+-- ***********************************************************
 
-DROP TABLE IF EXISTS `migrations`;
-CREATE TABLE IF NOT EXISTS `migrations` (
-  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+INSERT INTO Leverancier
+(
+     Naam
+    ,Contactpersoon
+    ,Leveranciernummer
+    ,Mobiel
+    ,IsActief
+    ,Opmerkingen
+    ,DatumAangemaakt
+    ,DatumGewijzigd
+)
+VALUES
+    ('Venco', 'Bert van Linge', 'L1029384719', '06-28493827', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    ('Astra Sweets', 'Jasper del Monte', 'L1029284315', '06-39398734', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    ('Haribo', 'Sven Stalman', 'L1029324748', '06-24383291', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    ('Basset', 'Joyce Stelterberg', 'L1023845773', '06-48293823', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    ('De Bron', 'Remco Veenstra', 'L1023857736', '06-34291234', 1, NULL, SYSDATE(6), SYSDATE(6));
 
--- --------------------------------------------------------
 
---
--- Table structure for table `product`
---
 
-DROP TABLE IF EXISTS `product`;
-CREATE TABLE IF NOT EXISTS `product` (
-  `ProductId` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `ProductNaam` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `Barcode` varchar(13) NOT NULL,
-  `IsActief` bit(1) DEFAULT b'1',
-  `Opmerking` varchar(255) DEFAULT NULL,
-  `DatumAangemaakt` datetime DEFAULT CURRENT_TIMESTAMP,
-  `DatumGewijzigd` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`ProductId`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+-- Step 07:
+-- Goal: Create a new table ProductPerLeverancier
+-- ********************************************************
+-- Version:       Date:       Author:           Description
+-- ********       ****        *******           ***********
+-- 01             22-11-2024  Thomas Tadesse    New table
+-- ********************************************************
 
---
--- Dumping data for table `product`
---
+CREATE TABLE IF NOT EXISTS ProductPerLeverancier
+(
+     Id                             MEDIUMINT       UNSIGNED          NOT NULL      AUTO_INCREMENT
+    ,LeverancierId                  SMALLINT        UNSIGNED          NOT NULL
+    ,ProductId                      MEDIUMINT       UNSIGNED          NOT NULL
+    ,DatumLevering                  DATE                              NOT NULL
+    ,Aantal                         INT             UNSIGNED          NOT NULL
+    ,DatumEerstVolgendeLevering     DATE                                  NULL
+    ,IsActief                       BIT                               NOT NULL      DEFAULT 1
+    ,Opmerkingen                    VARCHAR(255)                          NULL      DEFAULT NULL
+    ,DatumAangemaakt                Datetime(6)                       NOT NULL
+    ,DatumGewijzigd                 Datetime(6)                       NOT NULL
+    ,CONSTRAINT           PK_ProductPerLeverancier_Id  PRIMARY KEY CLUSTERED (Id)
+    ,CONSTRAINT           FK_ProductPerLeverancier_LeverancierId_Leverancier_Id  FOREIGN KEY (LeverancierId) REFERENCES Leverancier (Id)
+) ENGINE=InnoDB   AUTO_INCREMENT=1;
 
-INSERT INTO `product` (`ProductId`, `ProductNaam`, `Barcode`, `IsActief`, `Opmerking`, `DatumAangemaakt`, `DatumGewijzigd`) VALUES
-(1, 'Mintnopjes', '8719587231278', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(2, 'Schoolkrijt', '8719587326713', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(3, 'Honingdrop', '8719587327836', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(4, 'Zure Beren', '8719587321441', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(5, 'Cola Flesjes', '8719587321237', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(6, 'Turtles', '8719587322245', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(7, 'Witte Muizen', '8719587328256', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(8, 'Reuzen Slangen', '8719587325641', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(9, 'Zoute Rijen', '8719587322739', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(10, 'Winegums', '8719587327527', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(11, 'Drop Munten', '8719587322345', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(12, 'Kruis Drop', '8719587322265', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25'),
-(13, 'Zoute Ruitjes', '8719587323256', b'1', NULL, '2024-10-17 12:44:25', '2024-10-17 12:44:25');
 
--- --------------------------------------------------------
 
---
--- Table structure for table `productperallergeen`
---
+-- Step: 08
+-- Goal: Fill table ProductPerLeverancier with data
+-- ***********************************************************
+-- Version:       Date:       Author:           Description
+-- ********       ****        *******           ***********
+-- 01             22-11-2024  Thomas Tadesse    Insert Records
+-- ***********************************************************
 
-DROP TABLE IF EXISTS `productperallergeen`;
-CREATE TABLE IF NOT EXISTS `productperallergeen` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `ProductId` int DEFAULT NULL,
-  `AllergeenId` int DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE KEY `ProductId` (`ProductId`,`AllergeenId`),
-  KEY `AllergeenId` (`AllergeenId`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+INSERT INTO ProductPerLeverancier
+(
+     LeverancierId
+    ,ProductID
+    ,DatumLevering
+    ,Aantal
+    ,DatumEerstVolgendeLevering
+    ,IsActief
+    ,Opmerkingen
+    ,DatumAangemaakt
+    ,DatumGewijzigd
+)
+VALUES
+(1, 1, '2024-10-09', 23, '2024-10-16', 1, NULL, SYSDATE(6), SYSDATE(6)),
+(1, 1, '2024-10-18', 21, '2024-10-25', 1, NULL, SYSDATE(6), SYSDATE(6)),
+(1, 2, '2024-10-09', 12, '2024-10-16', 1, NULL, SYSDATE(6), SYSDATE(6)),
+(1, 3, '2024-10-10', 11, '2024-10-17', 1, NULL, SYSDATE(6), SYSDATE(6)),
+(2, 4, '2024-10-14', 16, '2024-10-21', 1, NULL, SYSDATE(6), SYSDATE(6)),
+(2, 4, '2024-10-21', 23, '2024-10-28', 1, NULL, SYSDATE(6), SYSDATE(6)),
+(2, 5, '2024-10-14', 45, '2024-10-21', 1, NULL, SYSDATE(6), SYSDATE(6)),
+(2, 6, '2024-10-14', 30, '2024-10-21', 1, NULL, SYSDATE(6), SYSDATE(6)),
+(3, 7, '2024-10-12', 12, '2024-10-19', 1, NULL, SYSDATE(6), SYSDATE(6)),
+(3, 7, '2024-10-19', 23, '2024-10-26', 1, NULL, SYSDATE(6), SYSDATE(6)),
+(3, 8, '2024-10-10', 12, '2024-10-17', 1, NULL, SYSDATE(6), SYSDATE(6)),
+(3, 9, '2024-10-11', 1, '2024-10-18', 1, NULL, SYSDATE(6), SYSDATE(6)),
+(4, 10, '2024-10-16', 24, '2024-10-30', 1, NULL, SYSDATE(6), SYSDATE(6)),
+(5, 11, '2024-10-10', 47, '2024-10-17', 1, NULL, SYSDATE(6), SYSDATE(6)),
+(5, 11, '2024-10-19', 60, '2024-10-26', 1, NULL, SYSDATE(6), SYSDATE(6)),
+(5, 12, '2024-10-11', 45, NULL, 1, NULL, SYSDATE(6), SYSDATE(6)),
+(5, 13, '2024-10-12', 23, NULL, 1, NULL, SYSDATE(6), SYSDATE(6));
 
---
--- Dumping data for table `productperallergeen`
---
 
-INSERT INTO `productperallergeen` (`Id`, `ProductId`, `AllergeenId`) VALUES
-(1, 1, 2),
-(2, 1, 3),
-(3, 2, 1),
-(4, 2, 4),
-(5, 3, 2),
-(6, 4, 1),
-(7, 4, 3);
+-- Step 11:
+-- Goal: Create a new table Allergeen
+-- ********************************************************
+-- Version:       Date:       Author:           Description
+-- ********       ****        *******           ***********
+-- 01             22-11-2024  Thomas Tadesse    New table
+-- ********************************************************
 
--- --------------------------------------------------------
+DROP TABLE IF EXISTS Allergeen;
 
---
--- Table structure for table `productperleverancier`
---
+CREATE TABLE IF NOT EXISTS Allergeen
+(
+     Id                 SMALLINT             UNSIGNED        NOT NULL      AUTO_INCREMENT
+    ,Naam               VARCHAR(60)                          NOT NULL
+    ,Omschrijving       VARCHAR(60)                          NOT NULL
+    ,IsActief           BIT                                  NOT NULL      DEFAULT 1
+    ,Opmerkingen        VARCHAR(255)                         NULL      DEFAULT NULL
+    ,DatumAangemaakt    Datetime(6)                          NOT NULL
+    ,DatumGewijzigd     Datetime(6)                          NOT NULL
+    ,CONSTRAINT      PK_Allergeen_Id        PRIMARY KEY CLUSTERED (Id)
+) ENGINE=InnoDB   AUTO_INCREMENT=1;
 
-DROP TABLE IF EXISTS `productperleverancier`;
-CREATE TABLE IF NOT EXISTS `productperleverancier` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `LeverancierId` int DEFAULT NULL,
-  `ProductId` int DEFAULT NULL,
-  `DatumLevering` date DEFAULT NULL,
-  `Aantal` int DEFAULT NULL,
-  `DatumEerstVolgendeLevering` date DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  KEY `LeverancierId` (`LeverancierId`),
-  KEY `ProductId` (`ProductId`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `productperleverancier`
---
+-- Step: 12
+-- Goal: Fill table Allergeen with data
+-- ***********************************************************
+-- Version:       Date:       Author:           Description
+-- ********       ****        *******           ***********
+-- 01             22-11-2024  Thomas Tadesse    Insert Records
+-- ***********************************************************
 
-INSERT INTO `productperleverancier` (`Id`, `LeverancierId`, `ProductId`, `DatumLevering`, `Aantal`, `DatumEerstVolgendeLevering`) VALUES
-(1, 1, 1, '2023-04-09', 23, '2023-04-16'),
-(2, 1, 1, '2023-04-18', 21, '2023-04-25'),
-(3, 1, 2, '2023-04-09', 12, '2023-04-16'),
-(4, 1, 3, '2023-04-10', 11, '2023-04-17'),
-(5, 2, 4, '2023-04-14', 16, '2023-04-21'),
-(6, 2, 4, '2023-04-21', 23, '2023-04-28'),
-(7, 2, 5, '2023-04-14', 45, '2023-04-21'),
-(8, 2, 6, '2023-04-14', 30, '2023-04-21'),
-(9, 3, 7, '2023-04-12', 12, '2023-04-19'),
-(10, 3, 7, '2023-04-19', 23, '2023-04-26'),
-(11, 3, 8, '2023-04-10', 12, '2023-04-17'),
-(12, 3, 9, '2023-04-11', 1, '2023-04-18'),
-(13, 4, 10, '2023-04-16', 24, '2023-04-30'),
-(14, 5, 11, '2023-04-10', 47, '2023-04-17'),
-(15, 5, 11, '2023-04-19', 60, '2023-04-26'),
-(16, 5, 12, '2023-04-11', 45, NULL),
-(17, 5, 13, '2023-04-12', 23, NULL);
+INSERT INTO Allergeen
+(
+     Naam
+    ,Omschrijving
+    ,IsActief
+    ,Opmerkingen
+    ,DatumAangemaakt
+    ,DatumGewijzigd
+)
+VALUES
+     ('Gluten', 'Dit product bevat gluten', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,('Gelatine', 'Dit product bevat gelatine', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,('AZO-Kleurstof', 'Dit product bevat AZO-kleurstoffen', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,('Lactose', 'Dit product bevat lactose', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,('Soja', 'Dit product bevat soja', 1, NULL, SYSDATE(6), SYSDATE(6));
 
--- --------------------------------------------------------
 
---
--- Table structure for table `sessions`
---
 
-DROP TABLE IF EXISTS `sessions`;
-CREATE TABLE IF NOT EXISTS `sessions` (
-  `id` varchar(255) NOT NULL,
-  `user_id` int DEFAULT NULL,
-  `ip_address` varchar(255) DEFAULT NULL,
-  `user_agent` text,
-  `payload` text NOT NULL,
-  `last_activity` int NOT NULL,
-  KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+-- Step 09:
+-- Goal: Create a new table ProductPerAllergeen
+-- ********************************************************
+-- Version:       Date:       Author:           Description
+-- ********       ****        *******           ***********
+-- 01             22-11-2024  Thomas Tadesse    New table
+-- ********************************************************
 
---
--- Dumping data for table `sessions`
---
+CREATE TABLE IF NOT EXISTS ProductPerAllergeen
+(
+     Id                             MEDIUMINT       UNSIGNED          NOT NULL      AUTO_INCREMENT
+    ,ProductId                      MEDIUMINT       UNSIGNED          NOT NULL
+    ,AllergeenId                    SMALLINT        UNSIGNED          NOT NULL
+    ,IsActief                       BIT                               NOT NULL      DEFAULT 1
+    ,Opmerkingen                    VARCHAR(255)                          NULL      DEFAULT NULL
+    ,DatumAangemaakt                Datetime(6)                       NOT NULL
+    ,DatumGewijzigd                 Datetime(6)                       NOT NULL
+    ,CONSTRAINT           PK_ProductPerAllergeen_Id  PRIMARY KEY CLUSTERED (Id)
+    ,CONSTRAINT           FK_ProductPerAllergeen_ProductId_Product_Id  FOREIGN KEY (ProductId) REFERENCES Product (Id)
+    ,CONSTRAINT           FK_ProductPerAllergeen_AllergeenId_Allergeen_Id  FOREIGN KEY (AllergeenId) REFERENCES Allergeen (Id)
+) ENGINE=InnoDB   AUTO_INCREMENT=1;
 
-INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('J4VEUYmbWTAjVbp8uG3JvWVkRlKbFFrWaAdO4abs', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiWnBYRGdoOTFUWVd6MFJCZnFNUFVwbk5ST2pTdEhsWkE2cGc5SGpIZCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kYXNoYm9hcmQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1731684208),
-('aUgCfXGIlnWDzbj9DDt9ov7Cycg1YNwJCI0njvhI', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiN01CaGVZclNiNjU1UUp5eHhFUUNmSWZwdFY0ZXdOenZQZ0xxSEZyWiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1732013456);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `users`
---
+-- Step: 10
+-- Goal: Fill table ProductPerAllergeen with data
+-- ***********************************************************
+-- Version:       Date:       Author:           Description
+-- ********       ****        *******           ***********
+-- 01             22-11-2024  Thomas Tadesse    Insert Records
+-- ***********************************************************
 
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+INSERT INTO ProductPerAllergeen
+(
+     ProductId
+    ,AllergeenId
+    ,IsActief
+    ,Opmerkingen
+    ,DatumAangemaakt
+    ,DatumGewijzigd
+)
+VALUES
+  (1, 2, 1, NULL, SYSDATE(6), SYSDATE(6))
+ ,(1, 1, 1, NULL, SYSDATE(6), SYSDATE(6))
+ ,(1, 3, 1, NULL, SYSDATE(6), SYSDATE(6))
+ ,(3, 4, 1, NULL, SYSDATE(6), SYSDATE(6))
+ ,(6, 5, 1, NULL, SYSDATE(6), SYSDATE(6))
+ ,(9, 2, 1, NULL, SYSDATE(6), SYSDATE(6))
+ ,(9, 5, 1, NULL, SYSDATE(6), SYSDATE(6))
+ ,(10, 2, 1, NULL, SYSDATE(6), SYSDATE(6))
+ ,(12, 4, 1, NULL, SYSDATE(6), SYSDATE(6))
+ ,(13, 1, 1, NULL, SYSDATE(6), SYSDATE(6))
+ ,(13, 4, 1, NULL, SYSDATE(6), SYSDATE(6))
+ ,(13, 5, 1, NULL, SYSDATE(6), SYSDATE(6));
+
+
+
+
 COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
