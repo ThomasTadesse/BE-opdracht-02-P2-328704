@@ -14,20 +14,26 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($leverancier as $supplier)
-            <tr>
-                <td class="py-2 px-4 text-sm text-gray-900">>{{ $supplier->naam }}</td>
-                <td class="py-2 px-4 text-sm text-gray-900">>{{ $supplier->contactpersoon }}</td>
-                <td class="py-2 px-4 text-sm text-gray-900">>{{ $supplier->leveranciernummer }}</td>
-                <td class="py-2 px-4 text-sm text-gray-900">>{{ $supplier->mobiel }}</td>
-                <td class="py-2 px-4 text-sm text-gray-900">>{{ $supplier->aantal_producten }}</td>
-                <td class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">>
-                    <a href="{{ route('producten.index', $supplier->id) }}" class="btn btn-primary">
-                        📦
-                    </a>
-                </td>
-            </tr>
-            @endforeach
+            @if(isset($leveranciers) && count($leveranciers) > 0)
+                @foreach ($leveranciers as $leverancier)
+                <tr>
+                    <td class="py-2 px-4 text-sm text-gray-900">{{ $leverancier->naam }}</td>
+                    <td class="py-2 px-4 text-sm text-gray-900">{{ $leverancier->contactpersoon }}</td>
+                    <td class="py-2 px-4 text-sm text-gray-900">{{ $leverancier->leveranciernummer }}</td>
+                    <td class="py-2 px-4 text-sm text-gray-900">{{ $leverancier->mobiel }}</td>
+                    <td class="py-2 px-4 text-sm text-gray-900">{{ $leverancier->aantal_producten }}</td>
+                    <td class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                        <a href="{{ route('leverancier.show', $leverancier->id) }}" class="btn btn-primary">
+                            📦
+                        </a>
+                    </td>
+                </tr>
+                @endforeach
+            @else
+                <tr>
+                    <td colspan="6" class="py-2 px-4 text-sm text-gray-900">Geen leveranciers gevonden.</td>
+                </tr>
+            @endif
         </tbody>
     </table>
     <a href="{{ route('welcome') }}" class="mb-4 inline-block px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Home</a>

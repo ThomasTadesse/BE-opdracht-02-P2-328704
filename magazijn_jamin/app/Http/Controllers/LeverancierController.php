@@ -9,8 +9,8 @@ class LeverancierController extends Controller
 {
     public function index()
     {
-        $leverancier = Leverancier::all();
-        return view('leverancier.index', compact('leverancier'));
+        $leveranciers = Leverancier::all();
+        return view('leverancier.index', compact('leveranciers'));
     }
 
     public function create()

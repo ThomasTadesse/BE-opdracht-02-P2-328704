@@ -6,6 +6,9 @@ use App\Http\Controllers\MagazijnController;
 use App\Models\Magazijn;
 use App\Http\Controllers\LeverancierController;
 use App\Models\Leverancier;
+use App\Http\Controllers\ProductController;
+use App\Models\Product;
+
 use Illuminate\Support\Arr;
 
 Route::get('/', function () {
@@ -37,3 +40,12 @@ Route::put('/leverancier/{id}', [LeverancierController::class, 'update'])->name(
 Route::delete('/leverancier/{id}', [LeverancierController::class, 'destroy'])->name('leverancier.destroy'); // delete data
 
 
+Route::resource('product', ProductController::class);
+
+Route::get('/product', [ProductController::class, 'index'])->name('product.index'); // view product.blade.php
+Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show'); // view product.blade.php
+Route::get('/product/create', [ProductController::class, 'create'])->name('product.create'); // view create.blade.php
+Route::get('/product/{id}/edit', [ProductController::class, 'edit'])->name('product.edit'); // view edit.blade.php
+Route::post('/product', [ProductController::class, 'store'])->name('product.store'); // store data
+Route::put('/product/{id}', [ProductController::class, 'update'])->name('product.update'); // update data
+Route::delete('/product/{id}', [ProductController::class, 'destroy'])->name('product.destroy'); // delete data
