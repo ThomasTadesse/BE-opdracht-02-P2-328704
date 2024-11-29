@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Leverancier;
+use Illuminate\Support\Facades\DB;
 
 class LeverancierController extends Controller
 {
     public function index()
     {
-        $leveranciers = Leverancier::all();
+        $leveranciers = Leverancier::select('leveranciers.*')
+            ->leftJoin('product_per_leveranciers', 'leveranciers.Id', '=', 'product_per_leveranciers.LeverancierId')
+            ->groupBy('leveranciers.Id')
+            ->addSelect(DB::raw('COUNT(DISTINCT product_per_leveranciers.ProductId) as unieke_producten_count'))
+            ->get();
 
         return view('leverancier.index', compact('leveranciers'));
     }
@@ -26,11 +31,13 @@ class LeverancierController extends Controller
             'Contactpersoon' => 'required|string|max:60',
             'Leveranciernummer' => 'required|string|max:11',
             'Mobiel' => 'required|string|max:11',
+            'Aantal_producten' => 'required|integer',
             'IsActief' => 'required|boolean',
             'Opmerkingen' => 'nullable|string|max:255',
             'DatumAangemaakt' => 'required|date',
             'DatumGewijzigd' => 'required|date',
         ]);
+        
 
         Leverancier::create($request->all());
 
@@ -57,6 +64,7 @@ class LeverancierController extends Controller
             'Contactpersoon' => 'required|string|max:60',
             'Leveranciernummer' => 'required|string|max:11',
             'Mobiel' => 'required|string|max:11',
+            'Aantal_producten' => 'required|integer',
             'IsActief' => 'required|boolean',
             'Opmerkingen' => 'nullable|string|max:255',
             'DatumAangemaakt' => 'required|date',
