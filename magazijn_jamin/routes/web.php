@@ -9,11 +9,6 @@ use App\Http\Controllers\ProductController;
 
 Route::view('/', 'welcome'); // view welcome.blade.php
 
-Route::get('/leveranciers', [SupplierController::class, 'index'])->name('leveranciers.index');
-Route::get('/leveranciers/{leverancier}', [SupplierController::class, 'show'])->name('leveranciers.show');
-Route::post('/leveranciers', [SupplierController::class, 'store'])->name('leveranciers.store');
-Route::put('/leveranciers/{leverancier}', [SupplierController::class, 'update'])->name('leveranciers.update');
-
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 
@@ -21,6 +16,6 @@ Route::post('/products', [ProductController::class, 'store'])->name('products.st
 Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
 Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 
+Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers.index');
+Route::get('/suppliers/{supplier}', [SupplierController::class, 'show'])->name('suppliers.show');
 Route::get('/suppliers/{supplier}/products', [ProductPerSupplierController::class, 'index'])->name('suppliers.products.index');
-Route::post('/suppliers/{supplier}/products/{product}', [ProductPerSupplierController::class, 'store'])->name('suppliers.products.store');
-Route::delete('/suppliers/{supplier}/products/{product}', [ProductPerSupplierController::class, 'destroy'])->name('suppliers.products.destroy');
