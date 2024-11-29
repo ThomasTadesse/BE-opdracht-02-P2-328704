@@ -6,17 +6,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Task;
 
-class Magazijn extends Model
+class Leverancier extends Model
 {
-    /** @use HasFactory<\Database\Factories\MagazijnFactory> */
+    /** @use HasFactory<\Database\Factories\LeverancierFactory> */
     use HasFactory;
 
-    protected $table = 'magazijn'; // Ensure the table name is correct
+    protected $table = 'leveranciers'; // Ensure the table name is correct
 
     protected $fillable = [
-        'ProductId',
-        'VerpakkingsEenheid',
-        'AantalAanwezig',
+        'Naam',
+        'Contactpersoon',
+        'Leveranciernummer',
+        'Mobiel',
         'IsActief',
         'Opmerkingen',
         'DatumAangemaakt',

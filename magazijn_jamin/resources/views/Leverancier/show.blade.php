@@ -26,7 +26,7 @@
                 <td>{{ $product->verpakkingseenheid }}</td>
                 <td>{{ $product->laatste_levering }}</td>
                 <td>
-                    <a href="{{ route('levering.create', ['leverancier' => $leverancier->id, 'product' => $product->id]) }}" class="btn btn-success">
+                    <a href="{{ route('levering.create', ['leveranciers' => $leverancier->id, 'product' => $product->id]) }}" class="btn btn-success">
                         +
                     </a>
                 </td>
@@ -36,7 +36,7 @@
     </table>
     
     <div class="mt-4">
-        <a href="{{ route('leveranciers.index') }}" class="btn btn-secondary">Terug</a>
+        <a href="{{ route('leverancier.index') }}" class="btn btn-secondary">Terug</a>
         <a href="{{ route('home') }}" class="btn btn-secondary">Home</a>
     </div>
 </div>

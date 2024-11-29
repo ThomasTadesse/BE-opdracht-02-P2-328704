@@ -7,7 +7,7 @@
         <p><strong>Mobiel:</strong> {{ $leverancier->mobiel }}</p>
     </div>
 
-    <form action="{{ route('levering.store', ['leverancier' => $leverancier->id, 'product' => $product->id]) }}" method="POST">
+    <form action="{{ route('levering.store', ['leveranciers' => $leverancier->id, 'product' => $product->id]) }}" method="POST">
         @csrf
         <div class="mb-3">
             <label for="aantal_producteenheden" class="form-label">Aantal producteenheden</label>
