@@ -23,6 +23,11 @@ class Magazijn extends Model
         'DatumGewijzigd'
     ];
 
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'ProductId', 'Id');
+    }
+
     public function tasks()
     {
         return $this->hasMany(Task::class);

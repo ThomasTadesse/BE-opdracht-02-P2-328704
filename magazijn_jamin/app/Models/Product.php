@@ -15,13 +15,18 @@ class Product extends Model
 
     protected $fillable = [
         'Naam',
+        'Barcode',
         'Omschrijving',
-        'Prijs',
         'IsActief',
         'Opmerkingen',
         'DatumAangemaakt',
         'DatumGewijzigd'
     ];
+
+    public function magazijn()
+    {
+        return $this->hasOne(Magazijn::class, 'productId', 'Id');
+    }
 
     public function tasks()
     {
