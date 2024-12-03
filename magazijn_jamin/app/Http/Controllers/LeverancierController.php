@@ -50,8 +50,9 @@ class LeverancierController extends Controller
         $leverancier = Leverancier::find($id);
         $producten = DB::table('product_per_leveranciers')
             ->join('product', 'product_per_leveranciers.ProductId', '=', 'product.Id')
+            ->leftJoin('magazijn', 'product.Id', '=', 'magazijn.ProductId')
             ->where('product_per_leveranciers.LeverancierId', $id)
-            ->select('product.*', 'product_per_leveranciers.DatumLevering', 'product_per_leveranciers.DatumEerstVolgendeLevering')
+            ->select('product.*', 'magazijn.AantalAanwezig', 'magazijn.VerpakkingsEenheid', 'product_per_leveranciers.DatumLevering', 'product_per_leveranciers.DatumEerstVolgendeLevering')
             ->get();
         return view('leverancier.show', compact('leverancier', 'producten'));
     }

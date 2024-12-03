@@ -25,7 +25,11 @@
                 <td class="py-2 px-4 text-sm text-gray-900">{{ $product->AantalAanwezig ?? 'N/A' }}</td>
                 <td class="py-2 px-4 text-sm text-gray-900">{{ $product->VerpakkingsEenheid ?? 'N/A' }}</td>
                 <td class="py-2 px-4 text-sm text-gray-900">{{ $product->DatumLevering }}</td>
-                <td class="py-2 px-4 text-sm text-gray-900">{{ $product->DatumEerstVolgendeLevering }}</td>
+                <td class="px-4 py-2 text-sm text-gray-900">
+                        <a href="{{ route('leverancier.create', $leverancier->id) }}" class="px-4 py-2 text-sm">
+                            ➕
+                        </a>
+                    </td>
             </tr>
             @endforeach
             @else
