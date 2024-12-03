@@ -22,26 +22,22 @@
             @foreach ($producten as $product)
             <tr>
                 <td class="py-2 px-4 text-sm text-gray-900">{{ $product->Naam }}</td>
-                <td class="py-2 px-4 text-sm text-gray-900">{{ $product->magazijn->AantalAanwezig ?? 'N/A' }}</td>
-                <td class="py-2 px-4 text-sm text-gray-900">{{ $product->magazijn->VerpakkingsEenheid ?? 'N/A' }}</td>
-                <td class="py-2 px-4 text-sm text-gray-900">{{ $product->DatumGewijzigd->format('d-m-Y') }}</td>
-                <td class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
-                       <a href="#" class="btn btn-success">
-                        +
-                    </a>
-                </td>
+                <td class="py-2 px-4 text-sm text-gray-900">{{ $product->AantalAanwezig ?? 'N/A' }}</td>
+                <td class="py-2 px-4 text-sm text-gray-900">{{ $product->VerpakkingsEenheid ?? 'N/A' }}</td>
+                <td class="py-2 px-4 text-sm text-gray-900">{{ $product->DatumLevering }}</td>
+                <td class="py-2 px-4 text-sm text-gray-900">{{ $product->DatumEerstVolgendeLevering }}</td>
             </tr>
             @endforeach
             @else
                 <tr>
-                    <td colspan="6" class="mb-4 px-4 py-2 text-sm text-gray-900 bg-red-200 hover:bg-red-400 text-center">Dit bedrijf heeft tot nu toe geen producten geleverd aan Jamin</td>
+                    <td colspan="5" class="mb-4 px-4 py-2 text-sm text-gray-900 bg-red-200 hover:bg-red-400 text-center">Dit bedrijf heeft tot nu toe geen producten geleverd aan Jamin</td>
                 </tr>
             @endif
         </tbody>
     </table>
-    <div class="mt-4">
-        <a href="{{ route('leverancier.index') }}" class="mb-4 inline-block px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Terug</a>
-        <a href="{{ route('home') }}" class="mb-4 inline-block px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Home</a>
+    <div class="mt-6 flex justify-end">
+        <a href="{{ route('leverancier.index') }}" class="mb-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Terug</a>
+        <a href="{{ route('home') }}" class="mb-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Home</a>
     </div>
 </div>
 </x-layout>

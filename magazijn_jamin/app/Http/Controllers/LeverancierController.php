@@ -48,7 +48,12 @@ class LeverancierController extends Controller
     public function show($id)
     {
         $leverancier = Leverancier::find($id);
-        return view('leverancier.show', compact('leverancier'));
+        $producten = DB::table('product_per_leveranciers')
+            ->join('product', 'product_per_leveranciers.ProductId', '=', 'product.Id')
+            ->where('product_per_leveranciers.LeverancierId', $id)
+            ->select('product.*', 'product_per_leveranciers.DatumLevering', 'product_per_leveranciers.DatumEerstVolgendeLevering')
+            ->get();
+        return view('leverancier.show', compact('leverancier', 'producten'));
     }
 
     public function edit($id)
