@@ -36,6 +36,8 @@
         </tbody>
     </table>
     <br>
-    <a href="{{ route('welcome') }}" class="mb-4 inline-block px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Home</a>
+    <div class="flex justify-end">
+        <a href="{{ route('welcome') }}" class="mb-4 inline-block px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Home</a>
+    </div>
 </div>
 </x-layout>
