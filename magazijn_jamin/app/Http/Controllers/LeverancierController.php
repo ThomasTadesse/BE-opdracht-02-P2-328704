@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Leverancier;
+use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 
 class LeverancierController extends Controller
@@ -19,9 +20,12 @@ class LeverancierController extends Controller
         return view('leverancier.index', compact('leveranciers'));
     }
 
-    public function create()
+
+    public function create($leverancierId)
     {
-        return view('leverancier.create');
+        $leverancier = Leverancier::findOrFail($leverancierId);
+        $producten = Product::all();
+        return view('Leverancier.create', compact('leverancier', 'producten'));
     }
 
     public function store(Request $request)

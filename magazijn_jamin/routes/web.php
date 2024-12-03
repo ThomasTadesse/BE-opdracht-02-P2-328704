@@ -38,7 +38,7 @@ Route::get('/leverancier/{id}/edit', [LeverancierController::class, 'edit'])->na
 Route::post('/leverancier', [LeverancierController::class, 'store'])->name('leverancier.store'); // store data
 Route::put('/leverancier/{id}', [LeverancierController::class, 'update'])->name('leverancier.update'); // update data
 Route::delete('/leverancier/{id}', [LeverancierController::class, 'destroy'])->name('leverancier.destroy'); // delete data
-
+Route::get('/leverancier/{leverancier}/create', [LeverancierController::class, 'create'])->name('leverancier.create');
 
 Route::resource('product', ProductController::class);
 

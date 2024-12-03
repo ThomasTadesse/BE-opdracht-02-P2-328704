@@ -8,7 +8,7 @@
         <p><strong>Mobiel:</strong> {{ $leverancier->Mobiel }}</p>
     </div>
     <table class="min-w-full bg-white rounded-lg shadow-lg">
-        <thead>
+        <thead class="bg-indigo-500 text-white">
             <tr>
                 <th class="py-2 px-4 text-sm font-medium text-gray-900">Naam product</th>
                 <th class="py-2 px-4 text-sm font-medium text-gray-900">Aantal in magazijn</th>
@@ -41,7 +41,7 @@
     </table>
     <div class="mt-6 flex justify-end">
         <a href="{{ route('leverancier.index') }}" class="mb-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Terug</a>
-        <a href="{{ route('home') }}" class="mb-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Home</a>
+        <a href="{{ route('welcome') }}" class="mb-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Home</a>
     </div>
 </div>
 </x-layout>
